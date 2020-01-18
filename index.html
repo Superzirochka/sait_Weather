@@ -14,69 +14,87 @@
     <title>Weather</title>
   </head>
   <body>
-    <header>
-      <div class="container pt-5" id="myHeader">
-        <h1 class="text-center"><i>WEATHER</i></h1>
+    <div id="app">
+      <header>
+        <div class="container pt-5" id="myHeader">
+          <h1 class="text-center"><i>WEATHER</i></h1>
+        </div>
+      </header>
+      <div class="row">
+        <div class="container">
+          
+            <div id="output"></div>
+
+            <legend>Выберите город</legend>
+            <label for="city"
+              >Ваш город <input type="text"/ placeholder="London" name="city"
+              id="city"></label
+            >
+            <button class=type="button" class="btn btn-primary" id="btn">OK</button>
+          
+        </div>
       </div>
-    </header>
-    <div class="row">
-      <div class="container">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item">
-            <a
-              class="nav-link active"
-              id="home-tab"
-              data-toggle="tab"
-              href="#home"
-              role="tab"
-              aria-controls="home"
-              aria-selected="true"
-              >Today</a
+      <div class="row">
+        <div class="container">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                id="home-tab"
+                data-toggle="tab"
+                href="#home"
+                role="tab"
+                aria-controls="home"
+                aria-selected="true"
+                >Today</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                id="profile-tab"
+                data-toggle="tab"
+                href="#profile"
+                role="tab"
+                aria-controls="profile"
+                aria-selected="false"
+                >5-day forecast</a
+              >
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <!-- current weather-->
+            <div
+              class="tab-pane fade show active"
+              id="home"
+              role="tabpanel"
+              aria-labelledby="home-tab"
             >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              id="profile-tab"
-              data-toggle="tab"
-              href="#profile"
-              role="tab"
-              aria-controls="profile"
-              aria-selected="false"
-              >5-day forecast</a
-            >
-          </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-          <div
-            class="tab-pane fade show active"
-            id="home"
-            role="tabpanel"
-            aria-labelledby="home-tab"
-          >
-            <div class="row">
-              <div class="container" id="currentWeather">
-                <div class="col-4" id="icon">
-                  <h3>CURRENT WEATHER</h3>
-                  <img src="" alt="" />
+              <div class="row">
+                <div class="container" id="currentWeather">
+                  <div class="col-4" id="icon">
+                    <h3>CURRENT WEATHER</h3>
+                    <img src="" alt="" />
+                  </div>
+                  <div class="col-4" id="currentTemp"></div>
+                  <div class="col-4" id="currentSun"></div>
                 </div>
-                <div class="col-4"></div>
-                <div class="col-4"></div>
               </div>
             </div>
-          </div>
-          <div
-            class="tab-pane fade"
-            id="profile"
-            role="tabpanel"
-            aria-labelledby="profile-tab"
-          >
-            2
+            <!-- next 5 day-->
+            <div
+              class="tab-pane fade"
+              id="profile"
+              role="tabpanel"
+              aria-labelledby="profile-tab"
+            >
+              2
+            </div>
           </div>
         </div>
       </div>
     </div>
-
+    <script src="js/vue.min.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

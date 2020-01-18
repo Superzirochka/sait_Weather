@@ -1,26 +1,39 @@
 let xhr = new XMLHttpRequest();
-$("#currentWeather") 
+let keyAPI = "8779cde84caa36148153944dafc08f86";
+let currentCity;
+let output = $("#output");
+let currentWeather = {};
 
-xhr.open("GET", " https://openweathermap.org/", true);
+$("#btn").on("click", function() {
+  currentCity = $("#city").val();
+  console.log(currentCity);
+});
+
+xhr.open(
+  "GET",
+  "http://api.openweathermap.org/data/2.5/weather?q=" +
+    currentCity +
+    ",uk&APPID=" +
+    keyAPI,
+  true
+);
 xhr.timeout = 1000;
 xhr.ontimeout = function() {
-  output.textContent = "Превышено время ожидания";
+  $("#currentWeather").textContent = "Превышено время ожидания";
 };
 xhr.send();
 
-output.textContent = "Загругка....";
+$("#currentWeather").textContent = "Загругка....";
 xhr.onreadystatechange = function() {
   if (xhr.readyState != 4) return;
-  output.textContent = "Данные полученны";
+  $("#currentTemp").textContent = "error";
   if (xhr.status >= 200 && xhr.status < 300) {
-    JSONDate(xhr.responseText);//выводим таблицу двнных
-
-    //console.log(JSON.parse(xhr.responseText));
+    currentWeather = JSONDate(xhr.responseText); //выводим таблицу двнных
+    console.log(currentWeather);
   } else {
     console.log(xhr.status + xhr.statusText);
   }
 };
-
 function makeCell(str) {
   let td = document.createElement("td");
   td.textContent = str;
@@ -44,15 +57,6 @@ function Table(rows) {
 }
 
 function JSONDate(json) {
-  let rows = [];
   let JSONObj = JSON.parse(json);
-  for (let i = 0; i < JSONObj.length; i++) {
-    let cells = [];
-
-    cells.push(makeCell(JSONObj[i].name));
-    cells.push(makeCell(JSONObj[i].login));
-    cells.push(makeCell(JSONObj[i].password));
-    rows.push(makeRow(cells));
-  }
-  document.body.appendChild(Table(rows));
+  return JSONObj;
 }
