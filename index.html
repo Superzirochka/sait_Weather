@@ -14,22 +14,32 @@
     <title>Weather</title>
   </head>
   <body>
-    <div id="app">
+   
       <header>
         <div class="container pt-5" id="myHeader">
           <h1 class="text-center"><i>WEATHER</i></h1>
         </div>
       </header>
+      <div id="app">
       <div class="row">
         <div class="container">
           
             <div id="output"></div>
 
             <legend>Выберите город</legend>
+            <label for="country"
+              >Ваш страна
+              <select name="country"  id="country" class="form-control" >
+                
+              </select>
+              <!-- <input type="text"/ placeholder="uk" name="country"
+              id="country">-->
+            </label >
             <label for="city"
               >Ваш город <input type="text"/ placeholder="London" name="city"
               id="city"></label
             >
+            
             <button class=type="button" class="btn btn-primary" id="btn">OK</button>
           
         </div>
@@ -72,11 +82,13 @@
             >
               <div class="row">
                 <div class="container" id="currentWeather">
-                  <div class="col-4" id="icon">
-                    <h3>CURRENT WEATHER</h3>
+                  <h3>CURRENT WEATHER</h3>
+                  <div class="col-4" id="icon">               
                     <img src="" alt="" />
                   </div>
-                  <div class="col-4" id="currentTemp"></div>
+                  <div class="col-4" id="currentTemp">
+                    
+                  </div>
                   <div class="col-4" id="currentSun"></div>
                 </div>
               </div>
