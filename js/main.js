@@ -6,6 +6,8 @@ let output = $("#output");
 let country_code = 200;
 let currentWeather = {};
 let forecastWeather = {};
+let cityList = {};
+let city = [];
 let abbrCountry = [
   "af",
   "ar",
@@ -114,6 +116,25 @@ $("#country")
         if ($(this).text() === countryArr[i]) {
           country = abbrCountry[i];
           console.log(country);
+          let xhrJson = new XMLHttpRequest();
+          xhrJson.open("GET", "city.list.min.json", true);
+          xhrJson.send();
+          xhrJson.onreadystatechange = function() {
+            if (xhrJson.status >= 200 && xhrJson.status < 300) {
+              cityList = JSONDate(xhrJson.responseText);
+            }
+          };
+          console.log(cityList);
+          for (let i = 0; i < cityList.length; i++) {
+            if (cityList[i]["country"] === country) {
+              console.log(cityList[i].country);
+              // $("#city").append("<option>" + cityList[i]["name"] + "</option>");
+              // let a = cityList[i].name;
+              // let b = cityList[i].id;
+              // city.push({ a, b });
+              // console.log(city);
+            }
+          }
         }
       }
     });
