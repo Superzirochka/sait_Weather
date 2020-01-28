@@ -9,6 +9,7 @@ let output = $("#output");
 let country_code = 706483;
 let currentWeather = {};
 let forecastWeather = {};
+
 let cityList = [
   {
     id: 706483,
@@ -183,7 +184,7 @@ for (let i = 0; i < cityList.length; i++) {
 }
 
 console.log(city);
-
+$("#table").remove();
 currentAPI(currentCity, country);
 forecastAPI(country_code);
 
@@ -224,6 +225,7 @@ $("#btn").on("click", function() {
   }
 
   $("#temp").remove();
+
   $("#imgWeather").remove();
   $("#sun").remove();
   currentAPI(currentCity, country);
@@ -249,9 +251,27 @@ function weatherMain(currentWeather) {
 
 function sunSet(currentWeather) {
   let sunrise = new Date(currentWeather.sys["sunrise"] * 1000);
+  let hoursRise = sunrise.getHours();
+  let minutesRise = sunrise.getMinutes();
+  let secondsRise = sunrise.getSeconds();
   let sunset = new Date(currentWeather.sys["sunset"] * 1000);
+  let hoursSet = sunset.getHours();
+  let minutesSet = sunset.getMinutes();
+  let secondsSet = sunset.getSeconds();
   return $("#currentSun").append(
-    "<p id='sun'> Восход   " + sunrise + " <br> Заход   " + sunset + "</p>"
+    "<p id='sun'> Восход   " +
+      hoursRise +
+      ":" +
+      minutesRise +
+      ":" +
+      secondsRise +
+      " <br> Заход          " +
+      hoursSet +
+      ":" +
+      minutesSet +
+      ":" +
+      secondsSet +
+      "</p>"
   );
 }
 
@@ -267,7 +287,47 @@ function currentTemp(currentWeather) {
   }
 }
 
-function forecastTemp(forecastWeather) {}
+function forecastTemp(forecastWeather) {
+  $("#table").remove();
+  $("table").append($("<tbody id='table'></tbody>"));
+  let tableWeather = $("#table");
+  //for (let key in forecastWeather) {
+  for (let i = 0; i < forecastWeather.list.length; i++) {
+    let d = new Date(forecastWeather.list[i].dt * 1000);
+    let date = d.getDate();
+    let mounth = d.getMonth();
+    let hours = d.getHours();
+    let minutes = d.getMinutes();
+    let seconds = d.getSeconds();
+    let temper = forecastWeather.list[i].main.temp - 273.15;
+    let weatherIcon = forecastWeather.list[i].weather[0].icon;
+    let weatherDiscrip = forecastWeather.list[i].weather[0].description;
+    tableWeather.append(
+      "<tr class='myTable'> <td scope='row'>  " +
+        date +
+        "." +
+        (mounth + 1) +
+        "  </td><td>" +
+        hours +
+        ":" +
+        minutes +
+        "" +
+        seconds +
+        "</td><td>" +
+        "<img  id='imgWeather' src='https://openweathermap.org/img/wn/" +
+        weatherIcon +
+        "@2x.png' alt='" +
+        weatherDiscrip +
+        "'/> <br> <p>" +
+        weatherDiscrip +
+        "</p></td><td>" +
+        Math.floor(temper) +
+        " °C         </td></tr>"
+    );
+  }
+  //}
+  return tableWeather;
+}
 
 function currentAPI(currentCity, country) {
   xhr.open(
@@ -323,7 +383,7 @@ function forecastAPI(country_code) {
     if (xhrFor.status >= 200 && xhrFor.status < 300) {
       forecastWeather = JSONDate(xhrFor.responseText); //выводим таблицу двнных
       console.log(forecastWeather);
-      forecastTemp(currentWeather);
+      forecastTemp(forecastWeather);
     } else {
       console.log(xhrFor.status + xhrFor.statusText);
     }
