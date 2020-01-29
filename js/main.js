@@ -75,7 +75,9 @@ let cityList = [
     }
   }
 ];
+
 let city = [];
+
 let abbrCountry = [
   "af",
   "ar",
@@ -174,22 +176,48 @@ let countryArr = [
 for (let i = 0; i < countryArr.length; i++) {
   if (countryArr[i] === "Ukrainian") {
     $("#country").append("<option selected>" + countryArr[i] + "</option>");
+  } else {
+    $("#country").append("<option>" + countryArr[i] + "</option>");
   }
-  $("#country").append("<option>" + countryArr[i] + "</option>");
 }
 
-for (let i = 0; i < cityList.length; i++) {
-  city.push(cityList[i].name);
-  $("#city").append("<option>" + city[i] + "</option>");
+function list(cityList, country) {
+  city.splice(0);
+  console.log(city);
+  for (let i = 0; i < cityList.length; i++) {
+    if (cityList[i].country === country.toUpperCase()) {
+      city.push(cityList[i].name);
+    }
+  }
+  return city;
 }
 
-console.log(city);
+function cityAppend(city) {
+  $(".appCity").remove();
+  for (let i = 0; i < city.length; i++) {
+    $("#city").append("<option class='appCity'>" + city[i] + "</option>");
+  }
+}
+
+list(cityList, country);
+cityAppend(city);
+
 $("#table").remove();
 currentAPI(currentCity, country);
 forecastAPI(country_code);
 
 $("#country")
   .change(function() {
+    $("select option:selected").each(function() {
+      for (let i = 0; i < countryArr.length; i++) {
+        if ($(this).text() === countryArr[i]) {
+          country = abbrCountry[i];
+          console.log(country);
+        }
+      }
+      list(cityList, country);
+      cityAppend(city);
+    });
     $("select option:selected").each(function() {
       for (let i = 0; i < countryArr.length; i++) {
         if ($(this).text() === countryArr[i]) {
@@ -279,7 +307,7 @@ function currentTemp(currentWeather) {
   for (key in currentWeather) {
     return $("#currentTemp").append(
       "<p id='temp'>" +
-        (currentWeather.main["temp"] - 273.15) +
+        Math.floor(currentWeather.main["temp"] - 273.15) +
         " °C<br>" +
         currentWeather.weather[0].description +
         "</p>"
